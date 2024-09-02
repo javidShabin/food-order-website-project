@@ -25,7 +25,7 @@ const registerUser = async (req, res) => {
     const newUser = new User({ email, ...rest, password: hashedPassword });
     await newUser.save();
 
-    const token = generateToken({ _id: newUser.id, email: newUser.email }); // generate token
+    const token = generateToken({ _id: newUser.id, email: newUser.email, role: "user" }); // generate token
     // pass token as cooki the token will expire in one hour
     res.cookie("token", token, {
       httpOnly: true,
