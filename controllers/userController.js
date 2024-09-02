@@ -108,6 +108,9 @@ const getUseresList = async (req, res ) => {
 // user profile
 const getUserProfile = async (req, res ) => {
   try {
+    // destructure user from req.user
+    const { user } = req;
+    console.log(user);
     // get user id from req.params
     const { id } = req.params;
     // find user with the id
@@ -123,6 +126,9 @@ const getUserProfile = async (req, res ) => {
 // update profile
 const updateUserProfile = async (req, res ) => {
   try {
+    // destructure user from req.user
+    const { user } = req;
+    console.log(user);
     // destructur the id from req.params
     const { id } = req.params;
     // get datas from req.body
