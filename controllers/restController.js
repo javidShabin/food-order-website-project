@@ -29,7 +29,7 @@ const getRestaurantById = async (req, res) => {
 const createRestaurant = async (req, res) => {
   try {
     // destructure user from req.user
-    const { admin } = req;
+    const admin = req.admin;
     console.log(admin);
     // destructure data
     const { name, ...rest } = req.body;

@@ -19,7 +19,7 @@ const adminAuthentication = (req, res, next) => {
       });
     }
     // if have token send the token as object
-    res.admin = verifyToken;
+    req.admin = verifyToken;
     next()
   } catch (error) {
     res.status(400).json({

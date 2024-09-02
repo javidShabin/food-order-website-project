@@ -19,7 +19,7 @@ const userAuthentication = (req, res, next) => {
       });
     }
     // if have token send the token as object
-    res.user = verifyToken;
+    req.user = verifyToken;
     next()
   } catch (error) {
     res.status(400).json({

@@ -127,8 +127,8 @@ const getUserProfile = async (req, res ) => {
 const updateUserProfile = async (req, res ) => {
   try {
     // destructure user from req.user
-    const { user } = req;
-    console.log(user);
+    const user = req.user
+    console.log(user, "user")
     // destructur the id from req.params
     const { id } = req.params;
     // get datas from req.body
