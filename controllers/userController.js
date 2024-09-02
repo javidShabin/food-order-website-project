@@ -72,10 +72,10 @@ const loginUser = async (req, res) => {
     // generate token
     const token = generateToken(isUserExist._id); // generate token
     res.cookie("token", token, {
-        httpOnly: true,
-        secure: process.env.ENVIRONMENT === "development" ? false : true,
-        maxAge: 1 * 60 * 60 * 1000,
-      }); // pass the token as cookie
+      httpOnly: true,
+      secure: process.env.ENVIRONMENT === "development" ? false : true,
+      maxAge: 1 * 60 * 60 * 1000,
+    }); // pass the token as cookie
     res.json({
       success: true,
       message: "User logged in",
@@ -84,8 +84,87 @@ const loginUser = async (req, res) => {
     res.status(404).json({ message: "faild to user login" });
   }
 };
+// User logout
+const logoutUser = async (req, res) => {
+  try {
+    res.clearCookie("token");
+    res.json({
+      success: true,
+      message: "User logged out",
+    });
+  } catch (error) {
+    res.json({ error });
+  }
+};
+// useres list
+const getUseresList = async (req, res ) => {
+  try {
+    const useres = await User.find({});
+    return res.status(200).json(useres);
+  } catch (error) {
+    res.status(404).json({ message: "Server not responese..." });
+  }
+};
+// user profile
+const getUserProfile = async (req, res ) => {
+  try {
+    // get user id from req.params
+    const { id } = req.params;
+    // find user with the id
+    const userData = await User.findOne({ _id: id });
+    // send the response
+    res.json({
+      success: true,
+      message: "User profile",
+      data: userData,
+    });
+  } catch (error) {}
+};
+// update profile
+const updateUserProfile = async (req, res ) => {
+  try {
+    // destructur the id from req.params
+    const { id } = req.params;
+    // get datas from req.body
+    const updateData = req.body;
+    // if your update user password then hash new password
+    if (updateData.password) {
+      // Hash the new password
+      const salt = await bcrypt.genSalt(10);
+      updateData.password = await bcrypt.hash(updateData.password, salt);
+    }
+    // new updated user data
+    const updatedUser = await User.findByIdAndUpdate(id, updateData, {
+      new: true,
+    });
+    // if have updated user or not
+    if (!updatedUser) {
+      return res.status(404).json({
+        success: false,
+        message: "User not found",
+      });
+    }
+    // send response user updated data
+    res.json({
+      success: true,
+      message: "User profile updated successfully",
+      data: updatedUser,
+    });
+  } catch (error) {
+    // Handle errors
+    res.status(500).json({
+      success: false,
+      message: "Server error",
+      error: error.message,
+    });
+  }
+};
 
 module.exports = {
   registerUser,
   loginUser,
+  logoutUser,
+  getUseresList,
+  getUserProfile,
+  updateUserProfile,
 };
