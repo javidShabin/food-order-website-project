@@ -2,12 +2,12 @@ const { Restaurant } = require("../models/restModel");
 
 // restaurant list
 const getAllRestaurants = async (req, res) => {
-  try {
-    const restaurants = await Restaurant.find({});
-    return res.status(200).json(restaurants);
-  } catch (error) {
-    res.status(404).json({ message: "Server not responese..." });
-  }
+    try {
+        const restaurants = await Restaurant.find({});
+        return res.status(200).json(restaurants);
+      } catch (error) {
+        res.status(404).json({ message: "Server not responese..." });
+      }
 };
 // get restaurant by id
 const getRestaurantById = async (req, res) => {
@@ -28,6 +28,9 @@ const getRestaurantById = async (req, res) => {
 // create restaurant
 const createRestaurant = async (req, res) => {
   try {
+    // destructure user from req.user
+    const { admin } = req;
+    console.log(admin);
     // destructure data
     const { name, ...rest } = req.body;
     // check if required fileds present
