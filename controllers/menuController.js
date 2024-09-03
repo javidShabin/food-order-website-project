@@ -72,10 +72,23 @@ const updateMenu = async (req, res) => {
     res.status(500).json({ message: "Error updating restaurant", error });
   }
 };
+// delete menu item
+const deleteMenuItem = async (req, res) => {
+    try {
+        const deletedRestaurant = await Menu.findByIdAndDelete(req.params.id)
+        if (!deletedRestaurant) {
+            return res.status(404).json({ message: "Menu item not found" });
+        }
+        res.status(200).json({ message: "Item deleted successfully" });
+    } catch (error) {
+        res.status(500).json({ message: "Error deleting restaurant", error });
+    }
+}
 
 module.exports = {
   getMenuItems,
   createMenuItem,
   getMenuItemById,
   updateMenu,
+  deleteMenuItem
 };
