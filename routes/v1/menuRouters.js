@@ -1,4 +1,11 @@
-const express = require('express')
+const express = require('express');
+const { getMenuItems, createMenuItem } = require('../../controllers/menuController');
+const { upload } = require('../../middlewares/multer');
 const router = express.Router()
+
+// Get all menu items for a restaurant
+router.get('/allmenus', getMenuItems);
+// Create menu item
+router.post('/allmenus', upload.single("image"), createMenuItem)
 
 module.exports = {menusRouter: router}
