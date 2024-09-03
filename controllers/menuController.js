@@ -19,7 +19,7 @@ const createMenuItem = async (req, res) => {
   }
   const existItem = await Menu.findOne({ name });
   if (existItem) {
-    return res.status(409).json({ message: "Restaurant already exists" });
+    return res.status(409).json({ message: "Item already exists" });
   }
   if (req.file) {
     console.log("Uploading file to Cloudinary...");
