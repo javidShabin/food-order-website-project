@@ -45,17 +45,20 @@ const createRestaurant = async (req, res) => {
     }
 
     if (req.file) {
-        console.log("Uploading file to Cloudinary...");
-        uploadResult = await cloudinaryInstance.uploader.upload(req.file.path);
-        console.log("Upload result:", uploadResult);
-      } else {
-        console.log("No file to upload.");
-      }
-  
+      console.log("Uploading file to Cloudinary...");
+      uploadResult = await cloudinaryInstance.uploader.upload(req.file.path);
+      console.log("Upload result:", uploadResult);
+    } else {
+      console.log("No file to upload.");
+    }
 
     // Save restaurant data to database
-    const restaurant = new Restaurant({ name, ...rest, image: uploadResult.secure_url || "" });
-    console.log(restaurant, "=======restaurant")
+    const restaurant = new Restaurant({
+      name,
+      ...rest,
+      image: uploadResult.secure_url || "",
+    });
+
     const savedRestaurant = await restaurant.save();
 
     res.status(201).json(savedRestaurant);
