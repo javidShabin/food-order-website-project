@@ -10,7 +10,6 @@ const getMenuItems = async (req, res) => {
     res.status(404).json({ message: "Server not responese..." });
   }
 };
-
 // get menu item by id
 const getMenuItemById = async (req, res) => {
   try {
@@ -53,9 +52,30 @@ const createMenuItem = async (req, res) => {
     res.status(201).json(saveMenuItem);
   } catch (error) {}
 };
+// update menu
+const updateMenu = async (req, res) => {
+  try {
+    // update the restaurant with id
+    const updatedMenuItem = await Menu.findByIdAndUpdate(
+      req.params.id,
+      req.body,
+      { new: true }
+    );
+    // if not have any item
+    if (!updatedMenuItem) {
+      return res.status(404).json({ message: "Items not found" });
+    }
+    // if have item
+    // send a response json the updated item
+    res.status(200).json(updatedMenuItem);
+  } catch (error) {
+    res.status(500).json({ message: "Error updating restaurant", error });
+  }
+};
 
 module.exports = {
   getMenuItems,
   createMenuItem,
-  getMenuItemById
+  getMenuItemById,
+  updateMenu,
 };
