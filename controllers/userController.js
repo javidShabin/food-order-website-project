@@ -9,9 +9,7 @@ const registerUser = async (req, res) => {
     const { email, ...rest } = req.body;
     // check if required fields are present
     if (!email || Object.keys(rest).length === 0) {
-      return res.status(400).json({
-        message: "All fields are required",
-      });
+      return res.status(400).json({ message: "All fields are required" });
     }
     // check if any user already exists
     const isUserExist = await User.findOne({ email });
@@ -25,8 +23,12 @@ const registerUser = async (req, res) => {
     const newUser = new User({ email, ...rest, password: hashedPassword });
     await newUser.save();
 
-    const token = generateToken({ _id: newUser.id, email: newUser.email, role: "user" }); // generate token
-    // pass token as cooki the token will expire in one hour
+    const token = generateToken({
+      _id: newUser.id,
+      email: newUser.email,
+      role: "user",
+    }); // generate token
+    // pass token as cookie the token will expire in one hour
     res.cookie("token", token, {
       httpOnly: true,
       secure: process.env.ENVIRONMENT === "development" ? false : true,
@@ -48,26 +50,23 @@ const loginUser = async (req, res) => {
     const { email, password } = req.body;
     // check if required fields are present
     if ((!email, !password)) {
-      return res.status(400).json({
-        success: false,
-        message: "All fields are required",
-      });
+      return res
+        .status(400)
+        .json({ success: false, message: "All fields are required" });
     }
     // check the user signed or not
     const isUserExist = await User.findOne({ email });
     if (!isUserExist) {
-      return res.status(401).json({
-        success: false,
-        message: "User does not exist",
-      });
+      return res
+        .status(401)
+        .json({ success: false, message: "User does not exist" });
     }
     // compare password for login
     const passwordMatch = bcrypt.compareSync(password, isUserExist.password);
     if (!passwordMatch) {
-      return res.status(401).json({
-        success: false,
-        message: "Unatherised access",
-      });
+      return res
+        .status(401)
+        .json({ success: false, message: "Unatherised access" });
     }
     // generate token
     const token = generateToken(isUserExist._id); // generate token
@@ -76,10 +75,7 @@ const loginUser = async (req, res) => {
       secure: process.env.ENVIRONMENT === "development" ? false : true,
       maxAge: 1 * 60 * 60 * 1000,
     }); // pass the token as cookie
-    res.json({
-      success: true,
-      message: "User logged in",
-    });
+    res.json({ success: true, message: "User logged in" });
   } catch (error) {
     res.status(404).json({ message: "faild to user login" });
   }
@@ -88,16 +84,13 @@ const loginUser = async (req, res) => {
 const logoutUser = async (req, res) => {
   try {
     res.clearCookie("token");
-    res.json({
-      success: true,
-      message: "User logged out",
-    });
+    res.json({ success: true, message: "User logged out" });
   } catch (error) {
     res.json({ error });
   }
 };
 // useres list
-const getUseresList = async (req, res ) => {
+const getUseresList = async (req, res) => {
   try {
     const useres = await User.find({});
     return res.status(200).json(useres);
@@ -106,7 +99,7 @@ const getUseresList = async (req, res ) => {
   }
 };
 // user profile
-const getUserProfile = async (req, res ) => {
+const getUserProfile = async (req, res) => {
   try {
     // destructure user from req.user
     const { user } = req;
@@ -116,19 +109,15 @@ const getUserProfile = async (req, res ) => {
     // find user with the id
     const userData = await User.findOne({ _id: id });
     // send the response
-    res.json({
-      success: true,
-      message: "User profile",
-      data: userData,
-    });
+    res.json({ success: true, message: "User profile", data: userData });
   } catch (error) {}
 };
 // update profile
-const updateUserProfile = async (req, res ) => {
+const updateUserProfile = async (req, res) => {
   try {
     // destructure user from req.user
-    const user = req.user
-    console.log(user, "user")
+    const user = req.user;
+    console.log(user, "user");
     // destructur the id from req.params
     const { id } = req.params;
     // get datas from req.body
@@ -145,10 +134,9 @@ const updateUserProfile = async (req, res ) => {
     });
     // if have updated user or not
     if (!updatedUser) {
-      return res.status(404).json({
-        success: false,
-        message: "User not found",
-      });
+      return res
+        .status(404)
+        .json({ success: false, message: "User not found" });
     }
     // send response user updated data
     res.json({
@@ -158,11 +146,9 @@ const updateUserProfile = async (req, res ) => {
     });
   } catch (error) {
     // Handle errors
-    res.status(500).json({
-      success: false,
-      message: "Server error",
-      error: error.message,
-    });
+    res
+      .status(500)
+      .json({ success: false, message: "Server error", error: error.message });
   }
 };
 
