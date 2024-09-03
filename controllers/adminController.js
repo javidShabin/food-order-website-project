@@ -69,7 +69,7 @@ const loginAdmin = async (req, res) => {
     }
     // generate token
     const token = generateToken(isadminExist._id); // generate token
-    res.cookie("token", generateToken); // pass the token as cookie
+    res.cookie("token", token); // pass the token as cookie
     res.json({ success: true, message: "admin logged in" });
   } catch (error) {
     res.status(404).json({ message: "faild to admin login" });

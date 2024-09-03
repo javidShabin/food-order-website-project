@@ -3,6 +3,7 @@ const adminAuthentication = (req, res, next) => {
   try {
     // get token form req.cookies
     const { token } = req.cookies;
+    console.log("get token", token)
     // check have any token
     if (!token) {
       return res.status(401).json({
