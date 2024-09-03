@@ -6,11 +6,10 @@ const generateToken = ({ _id, email, role }) => {
       {
         id: _id,
         email: email,
-        role: role || "user"
+        role: role
       },
       process.env.JWT_SECRET_KEY
     );
-    console.log(token);
     return token;
   } catch (error) {
     console.log(error);

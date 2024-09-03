@@ -1,13 +1,14 @@
+const { cloudinaryInstance } = require("../config/cloudinaryConfig");
 const { Restaurant } = require("../models/restModel");
 
 // restaurant list
 const getAllRestaurants = async (req, res) => {
-    try {
-        const restaurants = await Restaurant.find({});
-        return res.status(200).json(restaurants);
-      } catch (error) {
-        res.status(404).json({ message: "Server not responese..." });
-      }
+  try {
+    const restaurants = await Restaurant.find({});
+    return res.status(200).json(restaurants);
+  } catch (error) {
+    res.status(404).json({ message: "Server not responese..." });
+  }
 };
 // get restaurant by id
 const getRestaurantById = async (req, res) => {
@@ -42,8 +43,19 @@ const createRestaurant = async (req, res) => {
     if (existRestaurant) {
       return res.status(409).json({ message: "Restaurant already exists" });
     }
+
+    if (req.file) {
+        console.log("Uploading file to Cloudinary...");
+        uploadResult = await cloudinaryInstance.uploader.upload(req.file.path);
+        console.log("Upload result:", uploadResult);
+      } else {
+        console.log("No file to upload.");
+      }
+  
+
     // Save restaurant data to database
-    const restaurant = new Restaurant({ name, ...rest });
+    const restaurant = new Restaurant({ name, ...rest, image: uploadResult.secure_url || "" });
+    console.log(restaurant, "=======restaurant")
     const savedRestaurant = await restaurant.save();
 
     res.status(201).json(savedRestaurant);
