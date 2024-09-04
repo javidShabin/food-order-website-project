@@ -15,6 +15,6 @@ v1Router.use('/admin', adminRouter)
 // 
 v1Router.use('/menus', menusRouter)
 //
-v1Router.use('/orderes', orderRouter)
+v1Router.use('/orders', orderRouter)
 
 module.exports = { v1Router };

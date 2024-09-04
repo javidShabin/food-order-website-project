@@ -1,7 +1,7 @@
 const { Menu } = require("../models/menuModel");
 const { Order } = require("../models/orderModel");
 
-
+// create order
 const createOrder = async (req, res) => {
     try {
         const { items, restaurant } = req.body;
@@ -35,5 +35,17 @@ const createOrder = async (req, res) => {
         res.status(500).json({ message: "An error occurred while creating the order", error: error.message });
     }
 };
+// get all orders
+const getOrders = async (req, res) => {
+    try {
+        const orders = await Order.find({ user: req.user.userId });
+        res.status(200).json(orders);
+    } catch (error) {
+        res.status(400).json({ error: error.message });
+    }
+}
 
-module.exports = { createOrder };
+module.exports = { 
+    createOrder,
+    getOrders
+ };
