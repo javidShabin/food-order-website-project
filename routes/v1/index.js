@@ -3,6 +3,7 @@ const { userRouter } = require("./userRouters");
 const { restRouter } = require("./restRouters");
 const { adminRouter } = require("./adminRouters");
 const { menusRouter } = require("./menuRouters");
+const { orderRouter } = require("./orderRouters");
 const v1Router = express.Router();
 
 // user router
@@ -13,5 +14,7 @@ v1Router.use('/restaurant', restRouter)
 v1Router.use('/admin', adminRouter)
 // 
 v1Router.use('/menus', menusRouter)
+//
+v1Router.use('/orderes', orderRouter)
 
 module.exports = { v1Router };
