@@ -3,10 +3,11 @@ const { Restaurant } = require("../models/restModel");
 const { Review } = require("../models/reviewModel");
 
 // create review
-const createReview = async () => {
+const createReview = async (req, res) => {
   try {
     // destructure values from req.body
     const { rating, comment, restaurant, menuItem } = req.body;
+    console.log(rating, comment, restaurant, menuItem)
     const userId = req.user.id;
 
     if (!rating || (restaurant === undefined && menuItem === undefined)) {
@@ -48,7 +49,7 @@ const createReview = async () => {
   }
 };
 
-const getreviews = async () => {
+const getreviews = async (req, res) => {
   try {
     // destructure values from req.query
     const { restaurantId, menuItemId } = req.query;
@@ -64,8 +65,8 @@ const getreviews = async () => {
     res.status(200).json(review);
   } catch (error) {
     res.status(500).json({
-      message: "An error occurred while fetching the reviews.",
-    });
+        message: "An error occurred while fetching the reviews.",
+      });
   }
 };
 
