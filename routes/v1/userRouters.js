@@ -8,9 +8,9 @@ const router = express.Router();
 router.post('/register', registerUser);
 // Login user and get token
 router.post('/login', loginUser);
-// logout user and clear the token
+// Logout user and clear the token
 router.post('/logout', logoutUser);
-// get all useres list
+// Get all useres list
 router.get('/list', getUseresList);
 // Get user profile
 router.get('/profile/:id', userAuthentication, getUserProfile);

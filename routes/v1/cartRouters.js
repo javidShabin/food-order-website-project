@@ -3,11 +3,11 @@ const { addItemToCart, getCart, removeFromCart } = require('../../controllers/ca
 const { userAuthentication } = require('../../middlewares/userAuth')
 const router = express.Router()
 
-// add item to cart
+// Add item to cart
 router.post('/addCart',userAuthentication, addItemToCart)
-// get cart
+// Get cart
 router.get('/getCart',userAuthentication, getCart)
-// remove cart
+// Remove cart
 router.delete('/remove', userAuthentication, removeFromCart)
 
 module.exports = {cartRouter: router}

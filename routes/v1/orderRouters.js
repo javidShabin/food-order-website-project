@@ -4,13 +4,13 @@ const { userAuthentication } = require('../../middlewares/userAuth')
 const { adminAuthentication } = require('../../middlewares/adminAuth')
 const router = express.Router()
 
-// create order
+// Create order
 router.post('/order',userAuthentication, createOrder)
-// get order
+// Get order
 router.get('/orders',userAuthentication, getOrders)
-// get order by id
+// Get order by id
 router.get('/order/:id',userAuthentication, getOrderById)
-// update order
+// Update order
 router.put('/order/:id/status',adminAuthentication,  updateOrderStatus)
 
 module.exports = {orderRouter: router}

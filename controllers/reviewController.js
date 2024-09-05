@@ -5,7 +5,7 @@ const { Review } = require("../models/reviewModel");
 // create review
 const createReview = async (req, res) => {
   try {
-    // destructure values from req.body
+    // Destructure values from req.body
     const { rating, comment, restaurant, menuItem } = req.body;
     console.log(rating, comment, restaurant, menuItem)
     const userId = req.user.id;
@@ -16,21 +16,21 @@ const createReview = async (req, res) => {
           "rating is required, and either restaurant or menuItem must be provided.",
       });
     }
-    // check if restaurant
+    // Check if restaurant
     if (restaurant) {
       const restaurantExists = await Restaurant.findById(restaurant);
       if (!restaurantExists) {
         return res.status(404).json({ message: "restaurant not found" });
       }
     }
-    // check if menu menuItem exists
+    // Check if menu menuItem exists
     if (menuItem) {
       const menuItemExists = await Menu.findById(menuItem);
       if (!menuItemExists) {
         return res.status(404).json({ message: "menu item not found" });
       }
     }
-    // create a new review
+    // Create a new review
     const review = new Review({
       user: userId,
       restaurant,
@@ -38,7 +38,7 @@ const createReview = async (req, res) => {
       rating,
       comment,
     });
-    // save review to database
+    // Save review to database
     await review.save();
     res.status(201).json(review);
   } catch (error) {
@@ -51,7 +51,7 @@ const createReview = async (req, res) => {
 
 const getreviews = async (req, res) => {
   try {
-    // destructure values from req.query
+    // Destructure values from req.query
     const { restaurantId, menuItemId } = req.query;
     let filter = {};
     if (restaurantId) {

@@ -1,17 +1,17 @@
 const jwt = require("jsonwebtoken");
 const adminAuthentication = (req, res, next) => {
   try {
-    // get token form req.cookies
+    // Get token form req.cookies
     const { token } = req.cookies;
     console.log("get token", token)
-    // check have any token
+    // Check have any token
     if (!token) {
       return res.status(401).json({
         success: false,
         message: "admin not autherized",
       });
     }
-    // verify the token
+    // Verify the token
     const verifyToken = jwt.verify(token, process.env.JWT_SECRET_KEY);
     if (!verifyToken) {
       return res.status(401).json({
@@ -19,7 +19,7 @@ const adminAuthentication = (req, res, next) => {
         message: "admin not autherized",
       });
     }
-    // if have token send the token as object
+    // If have token send the token as object
     req.admin = verifyToken;
     next()
   } catch (error) {

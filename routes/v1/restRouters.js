@@ -10,15 +10,15 @@ const { adminAuthentication } = require("../../middlewares/adminAuth");
 const { upload } = require("../../middlewares/multer");
 const router = express.Router();
 
-// get all reastaurant
+// Get all reastaurant
 router.get("/allRest", getAllRestaurants);
-// get reastarant by id
+// Get reastarant by id
 router.get("/rest/:id", getRestaurantById);
-// create new restaurant
+// Create new restaurant
 router.post("/allRest", adminAuthentication, upload.single("image"), createRestaurant);
-// updata ratauarant
+// Updata ratauarant
 router.put("/rest/:id", adminAuthentication, updateRestaurant);
-// delete restaurant
+// Delete restaurant
 router.delete("/rest/:id", adminAuthentication, deleteRestaurant);
 
 module.exports = { restRouter: router };

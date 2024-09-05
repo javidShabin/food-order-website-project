@@ -9,21 +9,21 @@ const { reviewRouter } = require("./reviewRouters");
 const { addressRouter } = require("./addressRouter");
 const v1Router = express.Router();
 
-// user router
+// User router
 v1Router.use('/user', userRouter)
-// resturant router
+// Resturant router
 v1Router.use('/restaurant', restRouter)
-// admin rourt
+// Admin router
 v1Router.use('/admin', adminRouter)
-// 
+// Menu router
 v1Router.use('/menus', menusRouter)
-//
+// Order router
 v1Router.use('/orders', orderRouter)
-// 
+// Cart router
 v1Router.use('/cart', cartRouter)
-//
+// reviwe router
 v1Router.use('/review', reviewRouter)
-//
+// Address router
 v1Router.use('/addresses', addressRouter)
 
 module.exports = { v1Router };

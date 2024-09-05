@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 
-const asminSchema = new mongoose.Schema({
+const adminSchema = new mongoose.Schema({
   name: { type: String, required: true },
   email: { type: String, required: true, unique: true },
   password: { type: String, required: true },
@@ -9,6 +9,6 @@ const asminSchema = new mongoose.Schema({
   orders: [{ type: mongoose.Schema.Types.ObjectId, ref: "Order" }],
 });
 
-const Admin = mongoose.model("admin", asminSchema);
+const Admin = mongoose.model("admin", adminSchema);
 
 module.exports = { Admin };

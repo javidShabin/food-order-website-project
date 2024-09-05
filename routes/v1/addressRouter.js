@@ -3,13 +3,13 @@ const { createAddress, updateAddress, getAddress, deleteAddress } = require('../
 const { userAuthentication } = require('../../middlewares/userAuth')
 const router = express.Router()
 
-// create address
+// Create address
 router.post('/address', userAuthentication, createAddress)
-// update address
+// Ppdate address
 router.put('/address/:id', updateAddress)
-// get address
+// Get address
 router.get('/address', getAddress)
-// delete address
+// Delete address
 router.delete('/address/:id', deleteAddress)
 
 module.exports = {addressRouter: router}

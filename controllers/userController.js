@@ -7,16 +7,16 @@ const registerUser = async (req, res) => {
   try {
     // Get userdata from request body
     const { email, ...rest } = req.body;
-    // check if required fields are present
+    // Check if required fields are present
     if (!email || Object.keys(rest).length === 0) {
       return res.status(400).json({ message: "All fields are required" });
     }
-    // check if any user already exists
+    // Check if any user already exists
     const isUserExist = await User.findOne({ email });
     if (isUserExist) {
       return res.status(409).json({ message: "User already exists" });
     }
-    // user password hashing
+    // User password hashing
     const saltRounds = 10;
     const hashedPassword = bcrypt.hashSync(rest.password, saltRounds);
     // Create new user and save in database
@@ -27,8 +27,8 @@ const registerUser = async (req, res) => {
       _id: newUser.id,
       email: newUser.email,
       role: "user",
-    }); // generate token
-    // pass token as cookie the token will expire in one hour
+    }); // Generate token
+    // Pass token as cookie the token will expire in one hour
     res.cookie("token", token, {
       httpOnly: true,
       secure: process.env.ENVIRONMENT === "development" ? false : true,
@@ -46,35 +46,35 @@ const registerUser = async (req, res) => {
 // User login
 const loginUser = async (req, res) => {
   try {
-    // destructuring fields
+    // Destructuring fields
     const { email, password } = req.body;
-    // check if required fields are present
+    // Check if required fields are present
     if ((!email, !password)) {
       return res
         .status(400)
         .json({ success: false, message: "All fields are required" });
     }
-    // check the user signed or not
+    // Check the user signed or not
     const isUserExist = await User.findOne({ email });
     if (!isUserExist) {
       return res
         .status(401)
         .json({ success: false, message: "User does not exist" });
     }
-    // compare password for login
+    // Compare password for login
     const passwordMatch = bcrypt.compareSync(password, isUserExist.password);
     if (!passwordMatch) {
       return res
         .status(401)
         .json({ success: false, message: "Unatherised access" });
     }
-    // generate token
+    // Generate token
     const token = generateToken(isUserExist._id); // generate token
     res.cookie("token", token, {
       httpOnly: true,
       secure: process.env.ENVIRONMENT === "development" ? false : true,
       maxAge: 1 * 60 * 60 * 1000,
-    }); // pass the token as cookie
+    }); // Pass the token as cookie
     res.json({ success: true, message: "User logged in" });
   } catch (error) {
     res.status(404).json({ message: "faild to user login" });
@@ -89,7 +89,7 @@ const logoutUser = async (req, res) => {
     res.json({ error });
   }
 };
-// useres list
+// Useres list
 const getUseresList = async (req, res) => {
   try {
     const useres = await User.find({});
@@ -98,47 +98,47 @@ const getUseresList = async (req, res) => {
     res.status(404).json({ message: "Server not responese..." });
   }
 };
-// user profile
+// User profile
 const getUserProfile = async (req, res) => {
   try {
-    // destructure user from req.user
+    // Destructure user from req.user
     const { user } = req;
     console.log(user);
-    // get user id from req.params
+    // Get user id from req.params
     const { id } = req.params;
-    // find user with the id
+    // Find user with the id
     const userData = await User.findOne({ _id: id });
-    // send the response
+    // Send the response
     res.json({ success: true, message: "User profile", data: userData });
   } catch (error) {}
 };
-// update profile
+// Update profile
 const updateUserProfile = async (req, res) => {
   try {
-    // destructure user from req.user
+    // Destructure user from req.user
     const user = req.user;
     console.log(user, "user");
-    // destructur the id from req.params
+    // Destructur the id from req.params
     const { id } = req.params;
-    // get datas from req.body
+    // Get datas from req.body
     const updateData = req.body;
-    // if your update user password then hash new password
+    // If your update user password then hash new password
     if (updateData.password) {
       // Hash the new password
       const salt = await bcrypt.genSalt(10);
       updateData.password = await bcrypt.hash(updateData.password, salt);
     }
-    // new updated user data
+    // New updated user data
     const updatedUser = await User.findByIdAndUpdate(id, updateData, {
       new: true,
     });
-    // if have updated user or not
+    // If have updated user or not
     if (!updatedUser) {
       return res
         .status(404)
         .json({ success: false, message: "User not found" });
     }
-    // send response user updated data
+    // Send response user updated data
     res.json({
       success: true,
       message: "User profile updated successfully",

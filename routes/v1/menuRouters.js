@@ -6,13 +6,13 @@ const router = express.Router()
 
 // Get all menu items for a restaurant
 router.get('/allmenus', getMenuItems);
-// get menu by id
+// Get menu by id
 router.get('/item/:id', getMenuItemById)
 // Create menu item
 router.post('/allmenus', adminAuthentication, upload.single("image"), createMenuItem)
-// update menus
+// Update menus
 router.put('/item/:id', adminAuthentication, updateMenu)
-// update menus
+// Update menus
 router.delete('/item/:id', adminAuthentication, deleteMenuItem)
 
 module.exports = {menusRouter: router}

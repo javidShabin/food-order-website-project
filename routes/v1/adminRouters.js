@@ -2,13 +2,13 @@ const express = require('express')
 const { createAdmin, loginAdmin, updateAdmin, logoutAdmin } = require('../../controllers/adminController')
 const { adminAuthentication } = require('../../middlewares/adminAuth')
 const router = express.Router()
-// admin registration
+// Admin registration
 router.post("/register", createAdmin)
-// admin login
+// Admin login
 router.post("/login", loginAdmin)
-// logout admin
+// Logout admin
 router.post("/logout", logoutAdmin)
-// update admin
+// Update admin
 router.put("/update/:id", adminAuthentication, updateAdmin)
 
 module.exports = {adminRouter: router}
