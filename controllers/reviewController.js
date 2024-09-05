@@ -2,6 +2,7 @@ const { Menu } = require("../models/menuModel");
 const { Restaurant } = require("../models/restModel");
 const { Review } = require("../models/reviewModel");
 
+// create review
 const createReview = async () => {
   try {
     // destructure values from req.body
@@ -49,7 +50,23 @@ const createReview = async () => {
 
 const getreviews = async () => {
   try {
-  } catch (error) {}
+    // destructure values from req.query
+    const { restaurantId, menuItemId } = req.query;
+    let filter = {};
+    if (restaurantId) {
+      filter.restaurant = restaurantId;
+    }
+    if (menuItemId) {
+      filter.menuItem = menuItemId;
+    }
+
+    const review = await Review.find(filter);
+    res.status(200).json(review);
+  } catch (error) {
+    res.status(500).json({
+      message: "An error occurred while fetching the reviews.",
+    });
+  }
 };
 
 module.exports = {
