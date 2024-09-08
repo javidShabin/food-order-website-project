@@ -40,7 +40,7 @@ const registerUser = async (req, res) => {
       newUser,
     });
   } catch (error) {
-    console.log(404).json({ error });
+    res.status(404).json({ error });
   }
 };
 // User login
