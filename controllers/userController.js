@@ -22,6 +22,9 @@ const registerUser = async (req, res) => {
     // Create new user and save in database
     const newUser = new User({ email, ...rest, password: hashedPassword });
     await newUser.save();
+    if (newUser) {
+        return res.status(201).json('new user')
+    }
 
     const token = generateToken({
       _id: newUser.id,
