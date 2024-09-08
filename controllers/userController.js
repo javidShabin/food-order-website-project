@@ -75,7 +75,7 @@ const loginUser = async (req, res) => {
       secure: process.env.ENVIRONMENT === "development" ? false : true,
       maxAge: 1 * 60 * 60 * 1000,
     }); // Pass the token as cookie
-    res.json({ success: true, message: "User logged in" });
+    res.status(201).json({ success: true, message: "User logged in" });
   } catch (error) {
     res.status(404).json({ message: "faild to user login" });
   }
