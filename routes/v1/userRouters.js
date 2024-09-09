@@ -1,5 +1,5 @@
 const express = require("express");
-const { registerUser, loginUser, logoutUser, getUseresList, getUserProfile, updateUserProfile } = require("../../controllers/userController");
+const { registerUser, loginUser, logoutUser, getUseresList, getUserProfile, updateUserProfile, checkUser } = require("../../controllers/userController");
 const { userAuthentication } = require("../../middlewares/userAuth");
 
 const router = express.Router();
@@ -16,5 +16,7 @@ router.get('/list', getUseresList);
 router.get('/profile/:id', userAuthentication, getUserProfile);
 // Update user profile
 router.put('/profile/:id', userAuthentication, updateUserProfile);
+// Check user
+router.get('/check-user', userAuthentication, checkUser)
 
 module.exports = { userRouter: router };

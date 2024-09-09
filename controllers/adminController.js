@@ -84,6 +84,14 @@ const logoutAdmin = async (req, res) => {
     res.json({ error });
   }
 };
+// check admin
+const checkAdmin = async (req, res) => {
+    const admin = req.admin
+    if (!admin) {
+        return res.status(401).json({success: false, message: "admin not autherised"})
+    }
+    res.json({success: true, message: "admin autherised"})
+}
 // update admin
 const updateAdmin = async (req, res) => {
   try {
@@ -128,4 +136,5 @@ module.exports = {
   loginAdmin,
   updateAdmin,
   logoutAdmin,
+  checkAdmin
 };

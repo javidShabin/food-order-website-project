@@ -1,5 +1,5 @@
 const express = require('express')
-const { createAdmin, loginAdmin, updateAdmin, logoutAdmin } = require('../../controllers/adminController')
+const { createAdmin, loginAdmin, updateAdmin, logoutAdmin, checkAdmin } = require('../../controllers/adminController')
 const { adminAuthentication } = require('../../middlewares/adminAuth')
 const router = express.Router()
 // Admin registration
@@ -10,5 +10,7 @@ router.post("/login", loginAdmin)
 router.post("/logout", logoutAdmin)
 // Update admin
 router.put("/update/:id", adminAuthentication, updateAdmin)
+// check admin
+router.get("/check-admin", adminAuthentication, checkAdmin)
 
 module.exports = {adminRouter: router}

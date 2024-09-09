@@ -44,7 +44,6 @@ const registerSeller = async (req, res) => {
     res.json({
       success: true,
       message: "Create new seller",
-      newSeller,
     });
   } catch (error) {
     res.status(404).json({ error });

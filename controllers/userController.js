@@ -39,7 +39,6 @@ const registerUser = async (req, res) => {
     res.json({
       success: true,
       message: "Create new user",
-      newUser,
     });
   } catch (error) {
     res.status(404).json({ error });
@@ -92,6 +91,18 @@ const logoutUser = async (req, res) => {
     res.json({ error });
   }
 };
+// Check user
+const checkUser = async (req, res) => {
+    try {
+        const user = req.user
+        if (!user) {
+            return res.status(401).json({success: false, message: "user not autherised"})
+        }
+        res.json({success: true, message: "user autherised"})
+    } catch (error) {
+        
+    }
+}
 // Useres list
 const getUseresList = async (req, res) => {
   try {
@@ -162,4 +173,5 @@ module.exports = {
   getUseresList,
   getUserProfile,
   updateUserProfile,
+  checkUser
 };
