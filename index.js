@@ -8,8 +8,8 @@ const app = express();
 const port = 4000;
 
 app.use(cors({
-    origin: true,
-    credentials: true
+    credentials: true,
+    origin: true
 }));
 app.use(express.json());
 app.use(cookieParser())

@@ -7,10 +7,13 @@ const { orderRouter } = require("./orderRouters");
 const { cartRouter } = require("./cartRouters");
 const { reviewRouter } = require("./reviewRouters");
 const { addressRouter } = require("./addressRouter");
+const { sellerRouter } = require("./sellerRouter");
 const v1Router = express.Router();
 
 // User router
 v1Router.use('/user', userRouter)
+// Seller router
+v1Router.use('/seller', sellerRouter)
 // Resturant router
 v1Router.use('/restaurant', restRouter)
 // Admin router

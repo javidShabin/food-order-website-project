@@ -23,9 +23,8 @@ const registerUser = async (req, res) => {
     const newUser = new User({ email, ...rest, password: hashedPassword });
     await newUser.save();
     if (newUser) {
-        return res.status(201).json('new user')
+        return res.status(201).json('New user created')
     }
-
     const token = generateToken({
       _id: newUser.id,
       email: newUser.email,
@@ -72,7 +71,8 @@ const loginUser = async (req, res) => {
         .json({ success: false, message: "Unatherised access" });
     }
     // Generate token
-    const token = generateToken(isUserExist._id); // generate token
+    const token = generateToken(isUserExist._id);
+    
     res.cookie("token", token, {
       httpOnly: true,
       secure: process.env.ENVIRONMENT === "development" ? false : true,
