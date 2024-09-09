@@ -11,6 +11,10 @@ const registerUser = async (req, res) => {
     if (!email || Object.keys(rest).length === 0) {
       return res.status(400).json({ message: "All fields are required" });
     }
+    // compare password and conform password
+    if(rest.password != rest.conformPassword){
+        return res.status(401).json({message: "password not match"})
+    }
     // Check if any user already exists
     const isUserExist = await User.findOne({ email });
     if (isUserExist) {

@@ -1,50 +1,44 @@
 const { Seller } = require("../models/sellerModel");
 const bcrypt = require("bcrypt");
 const { generateToken } = require("../utils/token");
+const { Restaurant } = require("../models/restModel");
 
 // Seller registration
 const registerSeller = async (req, res) => {
   try {
-    // Get seller data from request body
-    const { email, ...rest } = req.body;
-    // Check if required fields are present
-    if (!email || Object.keys(rest).length === 0) {
-      return res.status(404).json({ message: "All fields are required" });
+    // Destructur data from request body
+    const {email, ...rest} = req.body
+    // get restaurant id
+    const restaurantId = rest.restaurantId
+    // Find restuarant by id and check have any restaurant
+    const restaurant = await Restaurant.findById(restaurantId)
+    if (!restaurant) {
+        return res.status(404).json({ message: 'Restaurant not found' });
     }
-    // Check if any seller already exists
-    const isSellerExist = await Seller.findOne({ email });
-    if (isSellerExist) {
-      return res.status(409).json({ message: "Seller already exist" });
+    // Check exist seller or not
+    const isExistSeller = await Seller.findOne({email})
+    if (isExistSeller) {
+        return res.status(400).json({ message: 'Seller already exists' });
     }
-    // Password hashing
+    // Hashing seller password
     const saltRounds = 10;
     const hashedPassword = bcrypt.hashSync(rest.password, saltRounds);
 
-    // create seller
-    const newSeller = new Seller({ email, ...rest, password: hashedPassword });
+    // Create a seller and save to database
+    const newSeller = new Seller({email, ...rest, password: hashedPassword, restaurant: restaurantId})
     await newSeller.save();
-    if (newSeller) {
-      return res.status(201).json("Seller created");
-    }
-
-    console.log(newSeller.id);
-
-    // generate token
+    // genetare token
     const token = generateToken({
-      _id: newSeller.id,
-      email: newSeller.email,
-      role: "seller",
-    });
-    console.log(token);
+        _id: newSeller.id,
+        email: newSeller.email,
+        role: "seller"
+    })
     // pass the token as cookie
     res.cookie("token", token, {
-      httpOnly: true,
-      secure: process.env.ENVIRONMENT === "development" ? false : true,
-    });
-    res.json({
-      success: true,
-      message: "Create new seller",
-    });
+        httpOnly: true,
+        secure: process.env.ENVIRONMENT === "development" ? false : true,
+    })
+    res.status(201).json({success: true, message: "create new user"})
   } catch (error) {
     res.status(404).json({ error });
   }
