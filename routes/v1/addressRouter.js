@@ -8,7 +8,7 @@ router.post('/address', userAuthentication, createAddress)
 // Ppdate address
 router.put('/address/:id', updateAddress)
 // Get address
-router.get('/address', getAddress)
+router.get('/address', userAuthentication, getAddress)
 // Delete address
 router.delete('/address/:id', deleteAddress)
 

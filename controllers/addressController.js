@@ -42,12 +42,13 @@ const updateAddress = async () => {
   }
 };
 // get address
-const getAddress = async () => {
-  try {
-    const userId = req.user.id;
-    const addresses = await Address.find({ user: userId });
-    res.status(200).json(addresses);
-  } catch (error) {}
+const getAddress = async (req, res) => {
+    try {
+        const userId = req.user.id;
+        console.log(userId)
+        const addresses = await Address.find({ user: userId });
+        res.status(200).json(addresses);
+      } catch (error) {}
 };
 // delete address
 const deleteAddress = async () => {
