@@ -10,6 +10,6 @@ router.put('/address/:id', updateAddress)
 // Get address
 router.get('/address', userAuthentication, getAddress)
 // Delete address
-router.delete('/address/:id', deleteAddress)
+router.delete('/address/:id', userAuthentication, deleteAddress)
 
 module.exports = {addressRouter: router}

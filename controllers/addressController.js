@@ -29,7 +29,7 @@ const createAddress = async (req, res) => {
   }
 };
 // update address
-const updateAddress = async () => {
+const updateAddress = async (req, res) => {
   try {
     const addressId = req.params.id;
     const updatedData = req.body;
@@ -51,7 +51,7 @@ const getAddress = async (req, res) => {
       } catch (error) {}
 };
 // delete address
-const deleteAddress = async () => {
+const deleteAddress = async (req, res) => {
   try {
     const userId = req.user.id;
     await Address.findByIdAndDelete(userId);
