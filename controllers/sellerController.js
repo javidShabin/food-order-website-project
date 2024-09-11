@@ -38,7 +38,7 @@ const registerSeller = async (req, res) => {
         httpOnly: true,
         secure: process.env.ENVIRONMENT === "development" ? false : true,
     })
-    res.status(201).json({success: true, message: "create new user"})
+    res.status(201).json({success: true, message: "create new seller"})
   } catch (error) {
     res.status(404).json({ error });
   }
