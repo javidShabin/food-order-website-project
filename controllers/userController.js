@@ -122,12 +122,10 @@ const getUserProfile = async (req, res) => {
     // Destructure user from req.user
     const { user } = req;
     console.log(user);
-    // Get user id from req.params
-    const { id } = req.params;
-    // Find user with the id
-    const userData = await User.findOne({ _id: id });
-    // Send the response
+    // find user with email
+    const userData = await User.findOne({_id: user.id})
     res.json({ success: true, message: "User profile", data: userData });
+    
   } catch (error) {}
 };
 // Update profile

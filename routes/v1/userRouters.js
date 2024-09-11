@@ -13,7 +13,7 @@ router.post('/logout', logoutUser);
 // Get all useres list
 router.get('/list', getUseresList);
 // Get user profile
-router.get('/profile/:id', userAuthentication, getUserProfile);
+router.get('/profile', userAuthentication, getUserProfile);
 // Update user profile
 router.put('/profile/:id', userAuthentication, updateUserProfile);
 // Check user
