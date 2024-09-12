@@ -12,8 +12,8 @@ const registerUser = async (req, res) => {
       return res.status(400).json({ message: "All fields are required" });
     }
     // compare password and conform password
-    if(rest.password != rest.conformPassword){
-        return res.status(401).json({message: "password not match"})
+    if (rest.password != rest.conformPassword) {
+      return res.status(401).json({ message: "password not match" });
     }
     // Check if any user already exists
     const isUserExist = await User.findOne({ email });
@@ -27,7 +27,7 @@ const registerUser = async (req, res) => {
     const newUser = new User({ email, ...rest, password: hashedPassword });
     await newUser.save();
     if (newUser) {
-        return res.status(201).json('New user created')
+      return res.status(201).json("New user created");
     }
     const token = generateToken({
       _id: newUser.id,
@@ -52,9 +52,9 @@ const registerUser = async (req, res) => {
 const loginUser = async (req, res) => {
   try {
     // Destructuring fields
-    const { email, password } = req.body;
+    const { name, email, password } = req.body;
     // Check if required fields are present
-    if ((!email, !password)) {
+    if ((!name, !email, !password)) {
       return res
         .status(400)
         .json({ success: false, message: "All fields are required" });
@@ -75,7 +75,7 @@ const loginUser = async (req, res) => {
     }
     // Generate token
     const token = generateToken(isUserExist._id);
-    
+
     res.cookie("token", token, {
       httpOnly: true,
       secure: process.env.ENVIRONMENT === "development" ? false : true,
@@ -97,16 +97,16 @@ const logoutUser = async (req, res) => {
 };
 // Check user
 const checkUser = async (req, res) => {
-    try {
-        const user = req.user
-        if (!user) {
-            return res.status(401).json({success: false, message: "user not autherised"})
-        }
-        res.json({success: true, message: "user autherised"})
-    } catch (error) {
-        
+  try {
+    const user = req.user;
+    if (!user) {
+      return res
+        .status(401)
+        .json({ success: false, message: "user not autherised" });
     }
-}
+    res.json({ success: true, message: "user autherised" });
+  } catch (error) {}
+};
 // Useres list
 const getUseresList = async (req, res) => {
   try {
@@ -123,9 +123,8 @@ const getUserProfile = async (req, res) => {
     const { user } = req;
     console.log(user);
     // find user with email
-    const userData = await User.findOne({_id: user.id})
+    const userData = await User.findOne({ _id: user.id });
     res.json({ success: true, message: "User profile", data: userData });
-    
   } catch (error) {}
 };
 // Update profile
@@ -175,5 +174,5 @@ module.exports = {
   getUseresList,
   getUserProfile,
   updateUserProfile,
-  checkUser
+  checkUser,
 };
