@@ -1,11 +1,12 @@
 const express = require("express");
 const { registerUser, loginUser, logoutUser, getUseresList, getUserProfile, updateUserProfile, checkUser } = require("../../controllers/userController");
 const { userAuthentication } = require("../../middlewares/userAuth");
+const { upload } = require("../../middlewares/multer");
 
 const router = express.Router();
 
 // Register a new user
-router.post('/register', registerUser);
+router.post('/register', upload.single("image"), registerUser);
 // Login user and get token
 router.post('/login', loginUser);
 // Logout user and clear the token

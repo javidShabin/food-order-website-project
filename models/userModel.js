@@ -6,6 +6,7 @@ const userSchema = new mongoose.Schema({
   password: { type: String, required: true },
   phone: { type: String, required: true },
   address: { type: String },
+  image: { type: String, default: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTL_JlCFnIGX5omgjEjgV9F3sBRq14eTERK9w&s" },
   role: { type: String, enum: ["customer", "admin"], default: "customer" },
   orders: [{ type: mongoose.Schema.Types.ObjectId, ref: "Order" }],
 });

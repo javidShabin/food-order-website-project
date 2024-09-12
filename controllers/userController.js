@@ -1,6 +1,7 @@
 const { User } = require("../models/userModel");
 const bcrypt = require("bcrypt");
 const { generateToken } = require("../utils/token");
+const { cloudinaryInstance } = require("../config/cloudinaryConfig");
 
 // User registration..
 const registerUser = async (req, res) => {
@@ -20,11 +21,20 @@ const registerUser = async (req, res) => {
     if (isUserExist) {
       return res.status(409).json({ message: "User already exists" });
     }
+
+    if (req.file) {
+        console.log("Uploading file to Cloudinary...")
+        uploadResult = await cloudinaryInstance.uploader.upload(req.file.path);
+        console.log("Upload result:", uploadResult);
+    }else{
+        console.log("No file to upload.");
+    }
+
     // User password hashing
     const saltRounds = 10;
     const hashedPassword = bcrypt.hashSync(rest.password, saltRounds);
     // Create new user and save in database
-    const newUser = new User({ email, ...rest, password: hashedPassword });
+    const newUser = new User({ email, ...rest, password: hashedPassword, image: uploadResult.secure_url });
     await newUser.save();
     if (newUser) {
       return res.status(201).json("New user created");
