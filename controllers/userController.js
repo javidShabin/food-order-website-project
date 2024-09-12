@@ -21,20 +21,12 @@ const registerUser = async (req, res) => {
     if (isUserExist) {
       return res.status(409).json({ message: "User already exists" });
     }
-
-    if (req.file) {
-        console.log("Uploading file to Cloudinary...")
-        uploadResult = await cloudinaryInstance.uploader.upload(req.file.path);
-        console.log("Upload result:", uploadResult);
-    }else{
-        console.log("No file to upload.");
-    }
-
+    
     // User password hashing
     const saltRounds = 10;
     const hashedPassword = bcrypt.hashSync(rest.password, saltRounds);
     // Create new user and save in database
-    const newUser = new User({ email, ...rest, password: hashedPassword, image: uploadResult.secure_url });
+    const newUser = new User({ email, ...rest, password: hashedPassword, });
     await newUser.save();
     if (newUser) {
       return res.status(201).json("New user created");
@@ -134,7 +126,8 @@ const getUserProfile = async (req, res) => {
     console.log(user);
     // find user with email
     const userData = await User.findOne({ _id: user.id });
-    res.json({ success: true, message: "User profile", data: userData });
+    const {image, name, email, phone} = userData
+    res.json({ success: true, message: "User profile", image, name, email, phone });
   } catch (error) {}
 };
 // Update profile

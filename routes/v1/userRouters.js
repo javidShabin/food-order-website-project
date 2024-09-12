@@ -6,7 +6,7 @@ const { upload } = require("../../middlewares/multer");
 const router = express.Router();
 
 // Register a new user
-router.post('/register', upload.single("image"), registerUser);
+router.post('/register', registerUser);
 // Login user and get token
 router.post('/login', loginUser);
 // Logout user and clear the token
