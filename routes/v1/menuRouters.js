@@ -5,7 +5,7 @@ const {
   getMenuItemById,
   updateMenu,
   deleteMenuItem,
-  filterMenu,
+  filteredMenu,
 
 } = require("../../controllers/menuController");
 const { upload } = require("../../middlewares/multer");
@@ -17,7 +17,7 @@ router.get("/allmenus", getMenuItems);
 // Get menu by id
 router.get("/item/:id", getMenuItemById);
 // Filter menu item
-router.get("/items/filter", filterMenu)
+router.get("/items/filter", filteredMenu)
 // Create menu item
 router.post("/allmenus", sellerAuthentication, upload.single("image"), createMenuItem);
 // Update menus
