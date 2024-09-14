@@ -60,6 +60,7 @@ const createMenuItem = async (req, res) => {
       ...rest,
       image: uploadResult.secure_url || "",
     });
+    console.log(newItem)
     const saveMenuItem = await newItem.save();
     res.status(201).json(saveMenuItem);
   } catch (error) {
