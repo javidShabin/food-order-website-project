@@ -67,6 +67,27 @@ const createMenuItem = async (req, res) => {
     res.status(404).json({ error });
   }
 };
+// filtering menu item
+const filterMenu = async (req, res) => {
+    try {
+        const {category} = req.query
+        
+        if (!category) {
+            return res.status(400).json({ message: "Category query parameter is required" });
+        }
+
+        const filteredItems = await Menu.find({category})
+        
+        if (filteredItems.length === 0) {
+            return res.status(404).json({ message: "No items found in that category" });
+        }
+
+        res.status(200).json({success: true, filteredItems })
+
+    } catch (error) {
+        res.status(404).json(error)
+    }
+}
 // update menu
 const updateMenu = async (req, res) => {
   try {
@@ -106,4 +127,5 @@ module.exports = {
   getMenuItemById,
   updateMenu,
   deleteMenuItem,
+  filterMenu
 };

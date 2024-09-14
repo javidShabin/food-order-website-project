@@ -5,6 +5,8 @@ const {
   getMenuItemById,
   updateMenu,
   deleteMenuItem,
+  filterMenu,
+
 } = require("../../controllers/menuController");
 const { upload } = require("../../middlewares/multer");
 const { sellerAuthentication } = require("../../middlewares/sellerAuth");
@@ -14,6 +16,8 @@ const router = express.Router();
 router.get("/allmenus", getMenuItems);
 // Get menu by id
 router.get("/item/:id", getMenuItemById);
+// Filter menu item
+router.get("/items/filter", filterMenu)
 // Create menu item
 router.post("/allmenus", sellerAuthentication, upload.single("image"), createMenuItem);
 // Update menus
