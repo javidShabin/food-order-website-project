@@ -16,7 +16,7 @@ router.get('/list', getUseresList);
 // Get user profile
 router.get('/profile', userAuthentication, getUserProfile);
 // Update user profile
-router.put('/profile/:id', userAuthentication, updateUserProfile);
+router.put('/profile/:id', userAuthentication,upload.single("image"), updateUserProfile);
 // Check user
 router.get('/check-user', userAuthentication, checkUser)
 

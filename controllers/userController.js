@@ -21,12 +21,12 @@ const registerUser = async (req, res) => {
     if (isUserExist) {
       return res.status(409).json({ message: "User already exists" });
     }
-    
+
     // User password hashing
     const saltRounds = 10;
     const hashedPassword = bcrypt.hashSync(rest.password, saltRounds);
     // Create new user and save in database
-    const newUser = new User({ email, ...rest, password: hashedPassword, });
+    const newUser = new User({ email, ...rest, password: hashedPassword });
     await newUser.save();
     if (newUser) {
       return res.status(201).json("New user created");
@@ -40,7 +40,7 @@ const registerUser = async (req, res) => {
     res.cookie("token", token, {
       httpOnly: true,
       secure: process.env.NODE_ENV === "development" ? false : true,
-      maxAge: 6 * 60 * 60 * 100
+      maxAge: 6 * 60 * 60 * 100,
     });
     res.json({
       success: true,
@@ -81,7 +81,7 @@ const loginUser = async (req, res) => {
     res.cookie("token", token, {
       httpOnly: true,
       secure: process.env.NODE_ENV === "development" ? false : true,
-      maxAge: 6 * 60 * 60 * 100
+      maxAge: 6 * 60 * 60 * 100,
     }); // Pass the token as cookie
     res.status(201).json({ success: true, message: "User logged in" });
   } catch (error) {
@@ -91,9 +91,9 @@ const loginUser = async (req, res) => {
 // User logout
 const logoutUser = async (req, res) => {
   try {
-    res.clearCookie("token",{
-        httpOnly: true,
-        secure: process.env.NODE_ENV === "development" ? false : true,
+    res.clearCookie("token", {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "development" ? false : true,
     });
     res.json({ success: true, message: "User logged out" });
   } catch (error) {
@@ -129,44 +129,64 @@ const getUserProfile = async (req, res) => {
     console.log(user);
     // find user with email
     const userData = await User.findOne({ _id: user.id });
-    const {image, name, email, phone} = userData
-    res.json({ success: true, message: "User profile", image, name, email, phone });
+    const { image, name, email, phone } = userData;
+    res.json({
+      success: true,
+      message: "User profile",
+      image,
+      name,
+      email,
+      phone,
+    });
   } catch (error) {}
 };
 // Update profile
 const updateUserProfile = async (req, res) => {
   try {
-    // Destructure user from req.user
-    const user = req.user;
-    console.log(user, "user");
-    // Destructur the id from req.params
     const { id } = req.params;
-    // Get datas from req.body
     const updateData = req.body;
-    // If your update user password then hash new password
+
+    // Hash new password if updating it
     if (updateData.password) {
-      // Hash the new password
       const salt = await bcrypt.genSalt(10);
       updateData.password = await bcrypt.hash(updateData.password, salt);
     }
-    // New updated user data
+
+    let uploadResult;
+
+    // Check for image upload
+    if (req.file) {
+      try {
+        uploadResult = await cloudinaryInstance.uploader.upload(req.file.path);
+        // Assign the uploaded image URL to the user's image field
+        updateData.image = uploadResult.secure_url;
+      } catch (uploadError) {
+        return res.status(500).json({
+          success: false,
+          message: "File upload failed",
+          error: uploadError.message,
+        });
+      }
+    }
+
+    // Update the user data
     const updatedUser = await User.findByIdAndUpdate(id, updateData, {
       new: true,
     });
-    // If have updated user or not
+
     if (!updatedUser) {
       return res
         .status(404)
         .json({ success: false, message: "User not found" });
     }
-    // Send response user updated data
+
+    // Send response
     res.json({
       success: true,
       message: "User profile updated successfully",
       data: updatedUser,
     });
   } catch (error) {
-    // Handle errors
     res
       .status(500)
       .json({ success: false, message: "Server error", error: error.message });
