@@ -39,7 +39,7 @@ const registerUser = async (req, res) => {
     // Pass token as cookie the token will expire in one hour
     res.cookie("token", token, {
       httpOnly: true,
-      secure: process.env.NODE_ENV === "development" ? false : true,
+      secure: true,
       maxAge: 6 * 60 * 60 * 100,
     });
     res.json({
@@ -80,7 +80,7 @@ const loginUser = async (req, res) => {
 
     res.cookie("token", token, {
       httpOnly: true,
-      secure: process.env.NODE_ENV === "development" ? false : true,
+      secure: true,
       maxAge: 6 * 60 * 60 * 100,
     }); // Pass the token as cookie
     res.status(201).json({ success: true, message: "User logged in"});
@@ -93,7 +93,7 @@ const logoutUser = async (req, res) => {
   try {
     res.clearCookie("token", {
       httpOnly: true,
-      secure: process.env.NODE_ENV === "development" ? false : true,
+      secure: true,
     });
     res.json({ success: true, message: "User logged out" });
   } catch (error) {
