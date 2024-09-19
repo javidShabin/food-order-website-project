@@ -40,8 +40,7 @@ const registerUser = async (req, res) => {
     res.cookie("token", token, {
       httpOnly: true,
       secure: true,
-      sameSite: "lax", // Helps prevent CSRF attacks
-      path: "/",
+      maxAge: 6 * 60 * 60 * 100,
     });
     res.json({
       success: true,
@@ -82,10 +81,9 @@ const loginUser = async (req, res) => {
     res.cookie("token", token, {
       httpOnly: true,
       secure: true,
-      sameSite: "lax", // Helps prevent CSRF attacks
-      path: "/",
+      maxAge: 6 * 60 * 60 * 100,
     }); // Pass the token as cookie
-    res.status(201).json({ success: true, message: "User logged in" });
+    res.status(201).json({ success: true, message: "User logged in"});
   } catch (error) {
     res.status(404).json({ message: "faild to user login" });
   }
@@ -96,8 +94,6 @@ const logoutUser = async (req, res) => {
     res.clearCookie("token", {
       httpOnly: true,
       secure: true,
-      sameSite: "lax", // Helps prevent CSRF attacks
-      path: "/",
     });
     res.json({ success: true, message: "User logged out" });
   } catch (error) {
@@ -141,7 +137,7 @@ const getUserProfile = async (req, res) => {
       name,
       email,
       phone,
-      _id,
+      _id
     });
   } catch (error) {}
 };
