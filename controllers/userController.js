@@ -40,7 +40,6 @@ const registerUser = async (req, res) => {
     res.cookie("token", token, {
       httpOnly: true,
       secure: true,
-      maxAge: 6 * 60 * 60 * 100,
       sameSite: "lax", // Helps prevent CSRF attacks
       path: "/",
     });
@@ -83,7 +82,6 @@ const loginUser = async (req, res) => {
     res.cookie("token", token, {
       httpOnly: true,
       secure: true,
-      maxAge: 6 * 60 * 60 * 100,
       sameSite: "lax", // Helps prevent CSRF attacks
       path: "/",
     }); // Pass the token as cookie
