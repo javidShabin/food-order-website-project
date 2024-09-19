@@ -9,7 +9,7 @@ const port = 4000;
 
 app.use(cors({
     credentials: true,
-    origin: true
+    origin: "https://food-order-website-project-frontend.vercel.app"
 }));
 app.use(express.json());
 app.use(cookieParser())
