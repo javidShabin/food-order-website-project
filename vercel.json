@@ -1,0 +1,20 @@
+{
+    "version": 2,
+    "builds": [
+      {
+        "src": "index.js",
+        "use": "@vercel/node"
+      }
+    ],
+    "routes": [
+      {
+        "src": "/api/(.*)",
+        "dest": "/index.js"
+      }
+    ],
+    "env": {
+      "JWT_SECRET_KEY": "5206af47464097c5e0106b890d0d5e74a0767a105a1101d02144f02bf08ba2978efca6a6f06b1dbd25b72183e3d85043b28edf24a015ba596a51a5a6045960c9",
+      "DB_CONNECTION_STRING": "mongodb://localhost:27017/food-ordering-website"
+    }
+  }
+  
