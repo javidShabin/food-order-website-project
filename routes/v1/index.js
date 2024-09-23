@@ -8,6 +8,7 @@ const { cartRouter } = require("./cartRouters");
 const { reviewRouter } = require("./reviewRouters");
 const { addressRouter } = require("./addressRouter");
 const { sellerRouter } = require("./sellerRouter");
+const {paymentRouter} = require("./paymentRouter");
 const v1Router = express.Router();
 
 // User router
@@ -28,5 +29,7 @@ v1Router.use('/cart', cartRouter)
 v1Router.use('/review', reviewRouter)
 // Address router
 v1Router.use('/addresses', addressRouter)
+// Payment router
+v1Router.use('/payment', paymentRouter)
 
 module.exports = { v1Router };
